@@ -215,4 +215,12 @@ public class RSSignatureCaptureMainView extends LinearLayout implements OnClickL
     reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
 
   }
+
+  @Override
+  public void onDistanceChange(float distance) {
+    WritableMap event = Arguments.createMap();
+    event.putInt("distance",(int)distance);
+    ReactContext reactContext = (ReactContext) getContext();
+    reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
+  }
 }

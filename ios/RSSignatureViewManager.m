@@ -21,43 +21,49 @@ RCT_EXPORT_VIEW_PROPERTY(strokeColor, UIColor)
 
 -(dispatch_queue_t) methodQueue
 {
-	return dispatch_get_main_queue();
+    return dispatch_get_main_queue();
 }
 
 -(UIView *) view
 {
-	self.signView = [[RSSignatureView alloc] init];
-	self.signView.manager = self;
-	return signView;
+    self.signView = [[RSSignatureView alloc] init];
+    self.signView.manager = self;
+    return signView;
 }
 
 // Both of these methods needs to be called from the main thread so the
 // UI can clear out the signature.
 RCT_EXPORT_METHOD(saveImage:(nonnull NSNumber *)reactTag) {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.signView saveImage];
-	});
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.signView saveImage];
+    });
 }
 
 RCT_EXPORT_METHOD(resetImage:(nonnull NSNumber *)reactTag) {
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self.signView erase];
-	});
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.signView erase];
+    });
 }
 
 -(void) publishSaveImageEvent:(NSString *) aTempPath withEncoded: (NSString *) aEncoded {
-	[self.bridge.eventDispatcher
-	 sendDeviceEventWithName:@"onSaveEvent"
-	 body:@{
-					@"pathName": aTempPath,
-					@"encoded": aEncoded
-					}];
+    [self.bridge.eventDispatcher
+     sendDeviceEventWithName:@"onSaveEvent"
+     body:@{
+                    @"pathName": aTempPath,
+                    @"encoded": aEncoded
+                    }];
 }
 
 -(void) publishDraggedEvent {
-	[self.bridge.eventDispatcher
-	 sendDeviceEventWithName:@"onDragEvent"
-	 body:@{@"dragged": @YES}];
+    [self.bridge.eventDispatcher
+     sendDeviceEventWithName:@"onDragEvent"
+     body:@{@"dragged": @YES}];
+}
+
+-(void) publishDistanceEvent:(int)distance {
+    [self.bridge.eventDispatcher
+     sendDeviceEventWithName:@"onDistanceChange"
+     body:@(distance)];
 }
 
 @end

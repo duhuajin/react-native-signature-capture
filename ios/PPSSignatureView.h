@@ -9,6 +9,7 @@
 @property (assign, nonatomic) BOOL hasSignature;
 @property (strong, nonatomic) UIImage *signatureImage;
 @property (nonatomic, strong) RSSignatureViewManager *manager;
+@property ( nonatomic) int distance;
 
 - (void)erase;
 
