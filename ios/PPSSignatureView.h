@@ -10,6 +10,7 @@
 @property (strong, nonatomic) UIImage *signatureImage;
 @property (nonatomic, strong) RSSignatureViewManager *manager;
 @property ( nonatomic) int distance;
+@property ( nonatomic) int totalDistance;
 
 - (void)erase;
 
